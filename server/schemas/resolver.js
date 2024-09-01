@@ -72,6 +72,110 @@ const resolvers = {
             return todo;
         },
 
-        
-    }
-}
+        addGoal: async (parent, { userId, title, description, targetDate }, context) => {
+            if(!context.user) {
+                throw new AuthenticationError('You need ti be logged in!');
+            }
+
+            const goal = await Goal.create({ title, description, targetDate, user: userId});
+            const user = await User.findById(userId);
+            user.goals.push(goal._id);
+            await user.save();
+
+            return goal;
+        },
+
+        addMacro: async(parent, { userId, date, calories, protein, carbs, fat}, context) => {
+            if(!context.user){
+                throw new AuthenticationError('You need to be logged in!')
+            }
+
+            const macros = await Macro.create({ date, calories, protein, carbs, fat, user: userId})
+            const user = await User.findById(userId);
+            user.macros.push(macro._id);
+            await user.save();
+            return macro;
+        }, 
+        updateMacro: async (parent, { id, newProtein, mewCarbs, newFats }, context) => {
+            if(!context.user) {
+                throw new AuthenticationError('You need to be logged in!');
+            }
+
+            return await Macro.findByIdAndUpdate(
+                id,
+                { protein: newProtein, carbs: newCarbs, fat: newFats },
+                { new: true }
+            );
+        },
+
+        removeTodo: async (parent, { todoId }, context) => {
+            if(!context.user){
+                throw new AuthenticationError('You need to log in!')
+            }
+
+            const todo = await todo.findByIdAndRemove(todoId);
+            if(!todo) {
+                throw new Error('Todo not found');
+            }
+
+            const user = await User.findById(todo.user);
+            user.todos.pull(todoId);
+            await user.save();
+
+            return user;
+        },
+
+        removeGoal: async (parent, { goalId }, context) => {
+            if(!context.user){
+                throw new AuthenticationError('You need to be logged in!');
+            }
+            const goal = await Goal.findByIdAndRemove(goalId);
+            if(!goal){
+                throw new Error('Goal not Found');
+            },
+
+            const user= await User.findById(goal.user);
+            user.goals.pull(goalid);
+            await user.save();
+            return user;
+        },
+    },
+    // Resolver functions for resolving nested data (relationships between types)
+    User: {
+        todos: async (parent) => {
+            return await Todo.find({ user: parent._id });
+        },
+        goals: async (parent) => {
+            return await Goal.find({ user: parent._id });
+        },
+        workouts: async (parent)=> {
+            return await Workout.find({ user: parent._id})
+        },
+        macros: async (parent) => {
+            return await Macro.find({ user: parent._id })
+        },
+    },
+
+    Todo: {
+        user: async (parent) => {
+            return await User.findById(parent.user);
+        },
+    },
+    Goal: {
+        user: async(parent) => {
+            return await User.findById(parent.user)
+        },
+    },
+    Workout: {
+        user: async(parent) => {
+            return await User.findById(parent.user);
+        },
+    },
+    Macro: {
+        user: async (parent) => {
+            return await User.findById(parent.user);
+        },
+    },
+};
+
+module.exports = resolvers;
