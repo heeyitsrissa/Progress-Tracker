@@ -39,7 +39,20 @@ type Workout {
     description: String
     date: String
     duration: Int
+    exercises: [exercise]
     user: User
+}
+
+type Exercise {
+    name: String!
+    reps: Int!
+    sets: Int!
+}
+
+input ExerciseInput {
+    name: String!
+    reps: Int!
+    sets: Int!
 }
 
 type Macro {
@@ -85,6 +98,13 @@ type Mutation {
         carbs: Int,
         fat: Int
     ): Macro
+    addWorkout(
+        userId: ID!,
+        title: String!,
+        description: String,
+        date: String!,
+        exercises: [ExerciseInput]
+    ): Workout
     updateMacro(id: ID!, newProtein: Int, newCarbs: Int, newFats: Int): Macro
     removeTodo(todoId: ID!): User
     removeGoal(goalId: ID!): User

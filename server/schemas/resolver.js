@@ -90,12 +90,25 @@ const resolvers = {
                 throw new AuthenticationError('You need to be logged in!')
             }
 
-            const macros = await Macro.create({ date, calories, protein, carbs, fat, user: userId})
+            const macro = await Macro.create({ date, calories, protein, carbs, fat, user: userId})
             const user = await User.findById(userId);
             user.macros.push(macro._id);
             await user.save();
             return macro;
         }, 
+
+        addWorkout: async(parent, { userId, title, description, date, exercises}, context) => {
+            if(!context.user){
+                throw new Error("You need to be logged in!")
+            }
+
+            const workout = await Workout.create({ title, description, date, exercises, user: userId  })
+            const user = await User.findById(userId);
+            user.workouts.push(workout._id);
+            await user.save()
+            return workout;
+        },
+
         updateMacro: async (parent, { id, newProtein, mewCarbs, newFats }, context) => {
             if(!context.user) {
                 throw new AuthenticationError('You need to be logged in!');
