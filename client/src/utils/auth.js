@@ -6,14 +6,14 @@ class AuthService {
     //gets the authenticated users details after they've logged in
     getProfile() { // gets users profile information by decoding the stored token
         const token = this.getToken(); //retrieves JWT from local storage via getToken()
-        console.log('Decoded token:' decode (token));
+        console.log('Decoded token:', decode (token));
         return decode(token) // decoded the token using jwt-decode and logs it
     }
     // if token is valid returns true if not the returns false and the user is not logged in
     loggedIn() { //chescks if the user is currently logged in by verifying if a valid token exists
         const token = this.getToken(); // retrieves the token from local storage
 
-        return token = this.isTokenExpired(token) ? true : false; //checks if the token is expired || if the token is valid then the user is logged in
+        return token && !this.isTokenExpired(token); //checks if the token is expired || if the token is valid then the user is logged in
     }
     // ensures the token is valid before allowing access to protected content
     isTokenExpired(token) { // determines if the JWT has expired

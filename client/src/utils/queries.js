@@ -1,4 +1,4 @@
-import { gql } fromv "@apollo/client";
+import { gql } from "@apollo/client";
 
 // Query to get all users
 export const GET_USERS = gql `
