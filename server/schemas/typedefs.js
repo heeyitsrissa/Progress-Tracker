@@ -20,7 +20,9 @@ type Todo {
     _id: ID!
     title: String!
     description: String
-    dueDate: String
+    start: Date
+    end: Date
+    dueDate: Date
     completed: Boolean
     user: User
 }
@@ -81,7 +83,9 @@ type Mutation {
         userId: ID!,
         title: String!,
         description: String,
-        date: String!
+        date: Date!,
+        start: Date!,
+        end: Date!
     ): Todo
     addGoal(
         userId: ID!,

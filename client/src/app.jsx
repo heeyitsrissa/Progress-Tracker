@@ -3,7 +3,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@ap
 import { setContext } from '@apollo/client/link/context';
 import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Footer from './components/footer';
+// import Footer from './components/footer';
 import { AuthProvider } from './context/AuthContext';
 
 const httpLink = createHttpLink({
@@ -22,7 +22,7 @@ const AuthLink = setContext((_, { headers }) => {
 
 const Client = new ApolloClient({
     link: AuthLink.concat(httpLink),
-    cache: new InmemoryCache(),
+    cache: new InMemoryCache(),
 });
 
 function App(){

@@ -92,8 +92,51 @@ query GetTodos {
         _id
         title
         description
-        dueDate
+        start 
+        end 
         completed
+    }
+}
+`;
+
+export const GET_TODOS_FOR_DAY = gql`
+query GetTodosForDay($userId: ID!, $date: String!){
+    todos(userId: $userId, date:$date) {
+         _id
+        title
+        description
+        completed
+        dueDate
+    }   
+}
+`;
+
+export const GET_WORKOUTS_FOR_DAY = gql`
+query GetWorkoutForDay($userId: ID!, $date: String!) {
+    workouts(userId: $userId, date: $date){
+        _id
+        title
+        description
+        date 
+        duration 
+        exercises {
+            name 
+            reps
+            sets
+        }
+    }
+}
+`;
+
+export const GET_MACROS_UP_TO_DAY = gql`
+query GetMacrosUpToDay($userId: ID!, $date: String!) {
+    macros(userId: $userId, date: $date) {
+        _id
+        date
+        calories
+        protein
+        carbs
+        fat
     }
 }
 `;

@@ -27,8 +27,8 @@ mutation login($email: String!, $password: String!) {
 `;
 
 export const ADD_TODO = gql`
-mutation addToDo($userID: ID!, $title: String!, $description: String!, $date: String!){
-    addToDo(userId: $userId, title: $title, description: $description, date: $date){
+mutation addToDo($userID: ID!, $title: String!, $description: String, $start: Date!, $end: Date! ){
+    addToDo(userId: $userId, title: $title, description: $description, start: $start, end: $end){
         _id
         title
         description

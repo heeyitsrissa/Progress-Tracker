@@ -1,4 +1,4 @@
-import decode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 
 // managing the JSON webtoken in browsers local storage
 
@@ -6,8 +6,8 @@ class AuthService {
     //gets the authenticated users details after they've logged in
     getProfile() { // gets users profile information by decoding the stored token
         const token = this.getToken(); //retrieves JWT from local storage via getToken()
-        console.log('Decoded token:', decode (token));
-        return decode(token) // decoded the token using jwt-decode and logs it
+        console.log('Decoded token:', jwtDecode (token));
+        return jwtDecode(token) // decoded the token using jwt-decode and logs it
     }
     // if token is valid returns true if not the returns false and the user is not logged in
     loggedIn() { //chescks if the user is currently logged in by verifying if a valid token exists
@@ -17,7 +17,7 @@ class AuthService {
     }
     // ensures the token is valid before allowing access to protected content
     isTokenExpired(token) { // determines if the JWT has expired
-        const decoded = decode(token); //decode token
+        const decoded = jwtDecode(token); //decode token
         if(decoded.exp < Date.now() / 1000) { //checks expiration claim within payload || 'decoded.exp' holds the expiration timestamp of the token || `Date.now() / 1000` gets the current timestamp in seconds (since exp is also in seconds).
             localStorage.removeItem('id_token'); // if expiration time has passed remove token from localstorage and returns true when the token has expired
             return true;

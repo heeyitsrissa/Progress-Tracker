@@ -2,8 +2,9 @@ import ReactDOM from 'react-dom/client';
 import React, { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider, useNavigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import App from './App.jsx';
-import Error from './pages/Error'
+import App from './app.jsx';
+import Error from './pages/Error';
+import Login from './components/Login.jsx';
 import Dashboard from './pages/Dashboard';
 import Todos from './pages/Todos';
 import Macros from './pages/Macros';
@@ -31,7 +32,23 @@ const router = createBrowserRouter([
     children: [
         {
             index: true,
-            element: <Dashboard />,
+            element: (
+                <ProtectedRoute>
+                    <Dashboard />
+                </ProtectedRoute>
+            ),
+        },
+        {
+            path: '/dashboard',
+            element:(
+                <ProtectedRoute>
+                    <Dashboard />
+                </ProtectedRoute>
+            )
+        },
+        {
+            path: 'login',
+            element: <Login />
         },
         {
             path: '/todos',

@@ -60,11 +60,11 @@ const resolvers = {
             return { token, user };
         },
 
-        addToDo: async(parent, { userId, title, description, dueDate }, context) => {
+        addToDo: async(parent, { userId, title, description, date, start, end }, context) => {
             if(!context.user){
                 throw new AuthenticationError('You need to be logged in!')
             }
-            const todo = await Todo.create({ title, description, dueDate, user: userId });
+            const todo = await Todo.create({ title, description, dueDate: date, start, end, user: userId });
             const user = await User.findById(userId);
             user.todos.push(todo._id);
             await user.save();
@@ -109,7 +109,7 @@ const resolvers = {
             return workout;
         },
 
-        updateMacro: async (parent, { id, newProtein, mewCarbs, newFats }, context) => {
+        updateMacro: async (parent, { id, newProtein, newCarbs, newFats }, context) => {
             if(!context.user) {
                 throw new AuthenticationError('You need to be logged in!');
             }
@@ -126,7 +126,7 @@ const resolvers = {
                 throw new AuthenticationError('You need to log in!')
             }
 
-            const todo = await todo.findByIdAndRemove(todoId);
+            const todo = await Todo.findByIdAndRemove(todoId);
             if(!todo) {
                 throw new Error('Todo not found');
             }
@@ -148,7 +148,7 @@ const resolvers = {
             },
 
             const user= await User.findById(goal.user);
-            user.goals.pull(goalid);
+            user.goals.pull(goalId);
             await user.save();
             return user;
         },
