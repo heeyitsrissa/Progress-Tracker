@@ -148,6 +148,7 @@ query GetGoals {
         title
         description
         targetDate
+        comlpeted
 
     }
 }

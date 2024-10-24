@@ -5,7 +5,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import { GET_TODOS } from '../utils/queries';
 import { ADD_TODO, REMOVE_TODO} from '../utils/mutation';
 
-const TodoPage = () => {
+const Todos = () => {
     const { loading, error, data } = useQuery(GET_TODOS);
     const [addTodo] = useMutation(ADD_TODO);
     const[removeTodo] = useMutation(REMOVE_TODO);
@@ -54,4 +54,4 @@ const TodoPage = () => {
     )
 }
 
-export default TodoPage;
+export default Todos;

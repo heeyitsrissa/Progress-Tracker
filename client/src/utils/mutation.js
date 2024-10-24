@@ -111,6 +111,16 @@ mutation updateMacro($id: ID!, $newProtein: Int, newCarbs: Int, newFats: Int){
 }
 `;
 
+export const UPDATE_GOAL = gql`
+mutation updateGoal($id: ID!, $title: String!, $description: String, $targetDate: Date!, $completed: Boolean!){
+    updateGoal(id: $id, title: $title, description: $description, targetDate: $targetDate, completed: $completed) {
+        _id
+        title
+        completed
+    }
+}
+`;
+
 export const REMOVE_TODO = gql`
 mutation removeTodo($todoId: ID!){
     removeTodo(todoId: $todoId){
